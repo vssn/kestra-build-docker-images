@@ -1,0 +1,106 @@
+id: workspaces-php-mariadb
+namespace: <SET_NAMESPACE>
+description: Docker base image for working with php and mariadb in Coder Workspaces
+
+labels:
+  env: dev
+  project: <SET_PROJECT>
+
+tasks:
+  - id: build
+    type: io.kestra.plugin.docker.Build
+    pull: true
+    dockerfile: |
+      FROM php:7.4-fpm
+      
+      USER root
+
+      ENV DEBIAN_FRONTEND noninteractive
+
+      RUN apt-get update
+      RUN apt-get install ca-certificates curl
+      RUN install -m 0755 -d /etc/apt/keyrings
+      RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      RUN chmod a+r /etc/apt/keyrings/docker.asc
+
+      RUN echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+      RUN apt-get update && apt-get install -y \
+          libmcrypt-dev \
+          && pecl install mcrypt-1.0.4 \
+          && docker-php-ext-enable mcrypt
+          
+      RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev zip libzip-dev unzip mariadb-client libpng-dev \
+        && docker-php-ext-configure gd --with-freetype --with-jpeg \
+        && docker-php-ext-install -j$(nproc) gd \
+        && docker-php-ext-configure zip \
+        && docker-php-ext-install -j$(nproc) mysqli \
+        && docker-php-ext-install -j$(nproc) pdo \
+        && docker-php-ext-install -j$(nproc) pdo_mysql \
+        && docker-php-ext-install bcmath \
+        && docker-php-ext-install zip \
+        && docker-php-ext-enable zip
+
+      # Install baseline packages
+      RUN apt-get update && \
+          apt-get install --yes \
+          bash \
+          mariadb-server \
+          build-essential \
+          ca-certificates \
+          containerd.io \
+          curl \
+          docker-ce \
+          docker-ce-cli \
+          docker-buildx-plugin \
+          docker-compose-plugin \
+          htop \
+          jq \
+          locales \
+          man \
+          python3 \
+          python3-pip \
+          software-properties-common \
+          sudo \
+          systemd \
+          systemd-sysv \
+          unzip \
+          vim \
+          wget \
+          rsync && \
+          add-apt-repository ppa:git-core/ppa && \
+          apt-get install --yes git \
+          && rm -rf /var/lib/apt/lists/*
+
+      # Enables Docker starting with systemd
+      RUN systemctl enable docker
+
+      # Create a symlink for standalone docker-compose usage
+      RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
+
+      # Make typing unicode characters in the terminal work.
+      ENV LANG en_US.UTF-8
+
+      # Add a user `coder` so that you're not developing as the `root` user
+      RUN useradd coder \
+          --create-home \
+          --shell=/bin/bash \
+          --groups=docker \
+          --uid=1000 \
+          --user-group && \
+          echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
+
+      USER coder
+    tags: 
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-php-mariadb:0.1
+    push: true
+    credentials:
+      registry: ghcr.io
+      username: <GITHUB_USER_NAME>
+      password: <GITHUB_CLASSIC_TOKEN>
