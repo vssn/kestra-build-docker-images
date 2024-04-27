@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM ubuntu:22.04
+      FROM golang:1.22.2
 
       USER root
 
@@ -25,9 +25,8 @@ tasks:
       RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
       RUN chmod a+r /etc/apt/keyrings/docker.asc
 
-      # Add the repository to Apt sources:
       RUN echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
         $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
         tee /etc/apt/sources.list.d/docker.list > /dev/null
 
@@ -37,7 +36,6 @@ tasks:
           bash \
           build-essential \
           containerd.io \
-          golang \
           gopls \
           docker-ce \
           docker-ce-cli \
@@ -49,18 +47,14 @@ tasks:
           man \
           python3 \
           python3-pip \
-          software-properties-common \
           sudo \
           systemd \
           systemd-sysv \
           unzip \
           vim \
           wget \
-          rsync && \
-          # Install latest Git using their official PPA
-          add-apt-repository ppa:git-core/ppa && \
-          apt-get install --yes git \
-          && rm -rf /var/lib/apt/lists/*
+          git \
+          rsync
 
       # Enables Docker starting with systemd
       RUN systemctl enable docker
