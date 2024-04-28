@@ -76,7 +76,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.1
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.3
     push: true
     credentials:
       registry: ghcr.io
