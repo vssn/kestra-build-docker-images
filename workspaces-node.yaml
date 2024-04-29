@@ -1,6 +1,6 @@
 id: workspaces-node
 namespace: <SET_NAMESPACE>
-description: Docker base image for working with Go in Coder Workspaces
+description: Docker base image for working with NodeJS in Coder Workspaces
 
 labels:
   env: dev
