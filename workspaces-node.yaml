@@ -70,6 +70,8 @@ tasks:
       RUN usermod -a -G docker node
       RUN echo "node ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
       
+      # Switching to base image user node
+      # and install nvm in its home directory
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
