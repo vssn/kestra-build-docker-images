@@ -60,6 +60,20 @@ tasks:
       # Enables Docker starting with systemd
       RUN systemctl enable docker
 
+      # Install Terraform
+      RUN apt-get install --yes \
+          gnupg \
+          software-properties-common
+
+      RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | \
+        tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+
+      RUN echo \
+        "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+        tee /etc/apt/sources.list.d/hashicorp.list
+    
+      RUN apt-get update && apt-get install --yes terraform
+
       # Create a symlink for standalone docker-compose usage
       RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
@@ -70,8 +84,6 @@ tasks:
       RUN usermod -a -G docker node
       RUN echo "node ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
       
-      # Switching to base image user node
-      # and install nvm in its home directory
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
