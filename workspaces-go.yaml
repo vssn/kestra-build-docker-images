@@ -78,6 +78,7 @@ tasks:
 
       # Make typing unicode characters in the terminal work.
       ENV LANG en_US.UTF-8
+      RUN locale-gen "en_US.UTF-8" && dpkg-reconfigure --frontend noninteractive locales
       ENV PATH=$PATH:$GOPATH/bin
 
       # Add a user `coder` so that you're not developing as the `root` user
@@ -91,7 +92,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.7
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.8
     push: true
     credentials:
       registry: ghcr.io
