@@ -54,6 +54,7 @@ tasks:
           vim \
           wget \
           git \
+          telnet \
           rsync
 
       # Enables Docker starting with systemd
@@ -89,7 +90,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.8
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.10
     push: true
     credentials:
       registry: ghcr.io
