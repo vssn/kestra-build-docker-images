@@ -77,7 +77,8 @@ tasks:
       # Create a symlink for standalone docker-compose usage
       RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
-      ENV PATH=$PATH:$GOPATH/bin
+      # Set the go path
+      ENV PATH=$PATH:/usr/local/go/bin
 
       # Add a user `coder` so that you're not developing as the `root` user
       RUN useradd coder \
@@ -90,7 +91,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.10
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.11
     push: true
     credentials:
       registry: ghcr.io
