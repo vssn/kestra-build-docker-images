@@ -78,7 +78,8 @@ tasks:
       RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
       # Set the go path
-      ENV PATH=$PATH:/usr/local/go/bin
+      ENV PATH="${PATH}:/usr/local/go/bin"
+      ENV GOPATH=/home/coder
 
       # Add a user `coder` so that you're not developing as the `root` user
       RUN useradd coder \
@@ -91,7 +92,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.12
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.14
     push: true
     credentials:
       registry: ghcr.io
