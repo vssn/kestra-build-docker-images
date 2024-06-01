@@ -14,3 +14,24 @@ Reference: https://coder.com/
 To build the images you need Kestra. You can simply copy the content of one of the yaml files and place it in a blank Kestra flow. Replace the placeholders with your own values.
 
 To run the images you have to edit the Deployment Template in your Coder Workpaces Instance. Then you are able to create a development container based on the image.
+
+``` 
+resource "kubernetes_deployment" "main" {
+[...]
+    template {
+[...]
+      spec {
+[...]
+        # You might need a secret name if the image repository is private
+        image_pull_secrets {
+          name = "SECRET_NAME"
+        }
+
+        container {
+          name              = "dev"
+          image             = "ghcr.io/GITHUB_USERNAME/workspaces-go:0.14"
+        }
+      }
+    }
+}
+``` 
