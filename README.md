@@ -34,3 +34,6 @@ resource "kubernetes_deployment" "main" {
     }
 }
 ``` 
+
+In the snippet above you see the entry image_pull_secrets. This spec property depends on a pre-setup secret in your environment for loading images from a private repository. For Kubernetes you can set it up according to the Kubernetes Docs.
+Reference: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
