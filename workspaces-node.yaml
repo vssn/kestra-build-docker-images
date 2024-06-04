@@ -44,8 +44,6 @@ tasks:
           docker-compose-plugin \
           htop \
           jq \
-          locales \
-          man \
           python3 \
           python3-pip \
           sudo \
@@ -73,7 +71,7 @@ tasks:
         tee /etc/apt/sources.list.d/hashicorp.list
     
       RUN apt-get update && apt-get install --yes terraform
-
+      
       # Create a symlink for standalone docker-compose usage
       RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
@@ -84,7 +82,7 @@ tasks:
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.8
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.12
     push: true
     credentials:
       registry: ghcr.io
