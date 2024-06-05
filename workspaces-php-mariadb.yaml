@@ -11,7 +11,9 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM php:7.4-fpm
+      # set your specific version
+      # FROM php:7.4-fpm
+      FROM php:8.3-fpm
       
       USER root
 
