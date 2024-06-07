@@ -65,7 +65,6 @@ tasks:
           htop \
           jq \
           locales \
-          man \
           python3 \
           python3-pip \
           software-properties-common \
@@ -85,9 +84,6 @@ tasks:
 
       # Create a symlink for standalone docker-compose usage
       RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
-
-      # Make typing unicode characters in the terminal work.
-      ENV LANG en_US.UTF-8
 
       # Add a user `coder` so that you're not developing as the `root` user
       RUN useradd coder \
