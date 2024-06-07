@@ -96,7 +96,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-php-mariadb:0.2
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-php-mariadb:0.3
     push: true
     credentials:
       registry: ghcr.io
