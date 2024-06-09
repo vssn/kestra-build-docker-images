@@ -43,7 +43,6 @@ tasks:
           htop \
           jq \
           locales \
-          man \
           python3 \
           python3-pip \
           sudo \
