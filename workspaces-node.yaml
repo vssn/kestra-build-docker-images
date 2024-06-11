@@ -78,7 +78,8 @@ tasks:
       # Modify base image user `node` so that you're not developing as the `root` user
       RUN usermod -a -G docker node
       RUN echo "node ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
-      
+
+      # Note: change the default volume claim from /home/coder to /home/node to make sure the folder is being saved
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
