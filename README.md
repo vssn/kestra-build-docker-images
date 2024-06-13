@@ -33,7 +33,10 @@ resource "kubernetes_deployment" "main" {
       }
     }
 }
-``` 
+```
+
+### Appendix
+Note for Node Script: you need to adjust the persistent volume claim (Kubernetes) and direct it to the home directory of the "node" user. The image already comes predefined with "node" and will not use the "coder" user.
 
 In the snippet above you see the entry image_pull_secrets. This spec property depends on a pre-setup secret in your environment for loading images from a private repository. For Kubernetes you can set it up according to the Kubernetes Docs.
 Reference: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
