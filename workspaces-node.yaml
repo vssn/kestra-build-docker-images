@@ -18,18 +18,6 @@ tasks:
       SHELL ["/bin/bash", "-c"]
       ENV DEBIAN_FRONTEND noninteractive
 
-      # Add Docker's official GPG key:
-      RUN apt-get update
-      RUN apt-get install --yes ca-certificates curl
-      RUN install -m 0755 -d /etc/apt/keyrings
-      RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-      RUN chmod a+r /etc/apt/keyrings/docker.asc
-
-      RUN echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-        tee /etc/apt/sources.list.d/docker.list > /dev/null
-
       # Install baseline packages
       RUN apt-get update && \
           apt-get install --yes \
@@ -37,11 +25,6 @@ tasks:
           npm \
           nodejs \
           build-essential \
-          containerd.io \
-          docker-ce \
-          docker-ce-cli \
-          docker-buildx-plugin \
-          docker-compose-plugin \
           htop \
           jq \
           python3 \
@@ -55,35 +38,13 @@ tasks:
           git \
           rsync
 
-      # Enables Docker starting with systemd
-      RUN systemctl enable docker
-
-      # Install Terraform
-      RUN apt-get install --yes \
-          gnupg \
-          software-properties-common
-
-      RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | \
-        tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
-
-      RUN echo \
-        "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
-        tee /etc/apt/sources.list.d/hashicorp.list
-    
-      RUN apt-get update && apt-get install --yes terraform
-      
-      # Create a symlink for standalone docker-compose usage
-      RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
-
       # Modify base image user `node` so that you're not developing as the `root` user
-      RUN usermod -a -G docker node
-      RUN echo "node ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
+      RUN echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
 
-      # Note: change the default volume claim from /home/coder to /home/node to make sure the folder is being saved
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.15
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.16
     push: true
     credentials:
       registry: ghcr.io
