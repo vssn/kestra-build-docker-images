@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM debian:bookworm
+      FROM debian:12.5
 
       USER root
 
@@ -74,7 +74,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-opentofu:0.1
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-opentofu:0.2
     push: true
     credentials:
       registry: ghcr.io
