@@ -45,7 +45,7 @@ tasks:
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.19
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.20
     push: true
     credentials:
       registry: ghcr.io
