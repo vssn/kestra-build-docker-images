@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM golang:1.23.1
+      FROM golang:1.23.2
 
       USER root
 
@@ -91,7 +91,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.16
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-go:0.17
     push: true
     credentials:
       registry: ghcr.io
