@@ -1,0 +1,79 @@
+id: workspaces-deno
+namespace: <SET_NAMESPACE>
+description: Docker base image for working with Deno in Coder Workspaces
+
+labels:
+  env: dev
+  project: <SET_PROJECT>
+
+tasks:
+  - id: build
+    type: io.kestra.plugin.docker.Build
+    pull: true
+    dockerfile: |
+      FROM denoland/deno:2.0.2
+
+      USER root
+
+      SHELL ["/bin/bash", "-c"]
+      ENV DEBIAN_FRONTEND noninteractive
+
+      # Add Docker's official GPG key:
+      RUN apt-get update
+      RUN apt-get install --yes ca-certificates curl
+      RUN install -m 0755 -d /etc/apt/keyrings
+      RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      RUN chmod a+r /etc/apt/keyrings/docker.asc
+
+      RUN echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+      # Install baseline packages
+      RUN apt-get update && \
+          apt-get install --yes \
+          bash \
+          build-essential \
+          containerd.io \
+          gopls \
+          docker-ce \
+          docker-ce-cli \
+          docker-buildx-plugin \
+          docker-compose-plugin \
+          htop \
+          jq \
+          locales \
+          python3 \
+          python3-pip \
+          sudo \
+          systemd \
+          systemd-sysv \
+          unzip \
+          vim \
+          wget \
+          git \
+          telnet \
+          rsync
+
+      # Enables Docker starting with systemd
+      RUN systemctl enable docker
+
+            # Add a user `coder` so that you're not developing as the `root` user
+      RUN useradd coder \
+          --create-home \
+          --shell=/bin/bash \
+          --groups=docker \
+          --uid=1000 \
+          --user-group && \
+          echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
+
+      USER coder
+
+    tags: 
+      - ghcr.io/vssn/workspaces-deno:0.3
+    push: true
+    credentials:
+      registry: ghcr.io
+      username: <GITHUB_USER_NAME>
+      password: <GITHUB_CLASSIC_TOKEN>
