@@ -28,7 +28,7 @@ resource "kubernetes_deployment" "main" {
         }
 
         container {
-          image             = "ghcr.io/GITHUB_USERNAME/workspaces-go:0.14"
+          image = "ghcr.io/GITHUB_USERNAME/workspaces-go:0.14"
         }
       }
     }
