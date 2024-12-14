@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM denoland/deno:2.0.2
+      FROM denoland/deno:2.1.4
 
       USER root
 
@@ -71,7 +71,7 @@ tasks:
       USER coder
 
     tags: 
-      - ghcr.io/vssn/workspaces-deno:0.3
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-deno:0.4
     push: true
     credentials:
       registry: ghcr.io
