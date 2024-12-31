@@ -13,7 +13,7 @@ tasks:
     dockerfile: |
       # set your specific version
       # FROM php:7.4.33-fpm
-      FROM php:8.3.8-fpm
+      FROM php:8.3.15-fpm
       
       USER root
 
@@ -96,7 +96,7 @@ tasks:
 
       USER coder
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-php-mariadb:0.3
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-php-mariadb:0.4
     push: true
     credentials:
       registry: ghcr.io
