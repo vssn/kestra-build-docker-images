@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM golang:1.24
+      FROM golang:1.24.1
 
       USER root
 
