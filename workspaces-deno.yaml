@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM denoland/deno:2.1.4
+      FROM denoland/deno:2.2.3
 
       USER root
 
