@@ -11,7 +11,7 @@ tasks:
     type: io.kestra.plugin.docker.Build
     pull: true
     dockerfile: |
-      FROM node:22.14
+      FROM node:22.16.0
 
       USER root
 
@@ -45,7 +45,7 @@ tasks:
       USER node
       RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     tags: 
-      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.22
+      - ghcr.io/<GITHUB_USER_NAME>/workspaces-node-nvm:0.25
     push: true
     credentials:
       registry: ghcr.io
